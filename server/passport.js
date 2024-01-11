@@ -1,24 +1,26 @@
-const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const passport = require("passport");
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-passport.use(
-	new GoogleStrategy(
-		{
-			clientID:'554589267381-40q7v4ckt0s70qrgndsp2789o5eeea09.apps.googleusercontent.com',
-			clientSecret:'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',
-			callbackURL: "/auth/google/callback",
-			scope: ["profile", "email"],
-		},
-		function (accessToken, refreshToken, profile, callback) {
-			callback(null, profile);
-		}
-	)
-);
+module.exports = (passport) => {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: "315550412475",
+        clientSecret:"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",
+        callbackURL: process.env.CLIENT_URL,
+        scope: ['openid', 'profile'],
+      },
+      (accessToken, refreshToken, profile, done) => {
+        // Store user information in the session
+        return done(null, profile);
+      }
+    )
+  );
 
-passport.serializeUser((user, done) => {
-	done(null, user);
-});
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
 
-passport.deserializeUser((user, done) => {
-	done(null, user);
-});
+  passport.deserializeUser((obj, done) => {
+    done(null, obj);
+  });
+};
